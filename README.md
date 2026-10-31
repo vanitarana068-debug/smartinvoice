@@ -20,6 +20,17 @@ Open [http://127.0.0.1:8000](http://127.0.0.1:8000) and create an account. If Su
 
 The previous local SQLite database is not automatically copied to Supabase. It contained no account or finance records when the migration was started.
 
+## Deploy to Vercel
+
+The repository includes a Vercel Python WSGI entry point and `vercel.json`. Import `vanitarana068-debug/smartinvoice` in Vercel, then add these project environment variables for Production (and Preview if desired):
+
+- `SUPABASE_URL` — your Supabase project URL.
+- `SUPABASE_ANON_KEY` — your Supabase publishable key (or legacy anon key).
+- `COOKIE_SECURE` — `1`.
+- `GEMINI_API_KEY` — optional, only if using Gemini insights.
+
+Never set a `service_role` or Supabase secret key. Run [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor first. After Vercel deploys, add the deployed domain to Supabase Authentication URL Configuration: set the Site URL to the production URL and add `https://YOUR-DOMAIN/**` to Redirect URLs. Use the actual Vercel domain shown on the deployment page.
+
 ## Gemini business analysis
 
 AI insights and business signals are calculated from the signed-in user's actual Supabase records. To enable Gemini-written analysis, add `GEMINI_API_KEY=your-Gemini-API-key` to the local `.env` file, then restart the server.
